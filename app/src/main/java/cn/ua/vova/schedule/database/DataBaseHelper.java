@@ -2,6 +2,7 @@ package cn.ua.vova.schedule.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
@@ -20,7 +21,7 @@ import cn.ua.vova.schedule.pojo.ScheduleItem;
 public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String DB_NAME="Schedule_DB";
-    private static final int VERSION=1;
+    private static final int VERSION=10;
 
     private CityDAO cityDAO=null;
     private ScheduleItemDAO scheduleItemDAO=null;
@@ -48,20 +49,27 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
     public DataBaseHelper(Context context) {
-        super(context, DB_NAME, null, VERSION);
+        super(context, DB_NAME, null, VERSION);;
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
-
+        try{
+            TableUtils.dropTable(connectionSource, ScheduleItem.class, true);
+            TableUtils.dropTable(connectionSource, City.class, true);
+            onCreate(database, connectionSource);
+        }
+        catch (SQLException e){
+           e.printStackTrace();
+        }
     }
 
 
     @Override
     public void onCreate(SQLiteDatabase db,ConnectionSource connectionSource) {
         try {
-            TableUtils.createTable(connectionSource, City.class);
             TableUtils.createTable(connectionSource, ScheduleItem.class);
+            TableUtils.createTable(connectionSource, City.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }

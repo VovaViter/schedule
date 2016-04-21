@@ -14,18 +14,12 @@ import java.io.Serializable;
 @DatabaseTable(tableName = "City")
 public class City implements Serializable{
 
-    @DatabaseField(generatedId = true)
+    @DatabaseField(id = true,dataType = DataType.LONG_OBJ)
     private Long id;
     @DatabaseField(dataType = DataType.STRING)
     private String name;
     @DatabaseField(dataType = DataType.INTEGER_OBJ)
     private Integer highlight;
-    @ForeignCollectionField(eager = false)
-    private ForeignCollection<ScheduleItem> orders;
-
-    public ForeignCollection<ScheduleItem> getOrders() {
-        return orders;
-    }
 
     public Long getId() {
         return id;
@@ -49,5 +43,14 @@ public class City implements Serializable{
 
     public void setHighlight(Integer highlight) {
         this.highlight = highlight;
+    }
+
+    @Override
+    public String toString() {
+        return "City{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", highlight=" + highlight +
+                '}';
     }
 }

@@ -13,9 +13,9 @@ import java.math.BigDecimal;
 @DatabaseTable(tableName = "Item")
 public class ScheduleItem implements Serializable {
 
-    @DatabaseField(generatedId = true)
+    @DatabaseField(id = true,dataType = DataType.LONG_OBJ)
     private Long id;
-    @DatabaseField(columnName = "busID")
+    @DatabaseField(dataType = DataType.LONG_OBJ)
     private Long bus_id;
     @DatabaseField(dataType = DataType.BIG_DECIMAL)
     private BigDecimal price;
@@ -25,9 +25,9 @@ public class ScheduleItem implements Serializable {
     private String from_time;
     @DatabaseField(dataType = DataType.STRING)
     private String to_info;
-    @DatabaseField(canBeNull = false, foreign = true,foreignAutoRefresh = true)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true,canBeNull = false)
     private City from_city;
-    @DatabaseField(canBeNull = false, foreign = true)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true,canBeNull = false)
     private City to_city;
     @DatabaseField(dataType = DataType.STRING)
     private String to_date;
@@ -142,5 +142,24 @@ public class ScheduleItem implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "ScheduleItem{" +
+                "id=" + id +
+                ", bus_id=" + bus_id +
+                ", price=" + price +
+                ", reservation_count=" + reservation_count +
+                ", from_time='" + from_time + '\'' +
+                ", to_info='" + to_info + '\'' +
+                ", from_city=" + from_city +
+                ", to_city=" + to_city +
+                ", to_date='" + to_date + '\'' +
+                ", from_date='" + from_date + '\'' +
+                ", from_info='" + from_info + '\'' +
+                ", info='" + info + '\'' +
+                ", to_time='" + to_time + '\'' +
+                '}';
     }
 }

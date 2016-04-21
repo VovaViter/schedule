@@ -18,7 +18,6 @@ public class ListViewFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // listView= (ListView) getView().findViewById(R.id.listView);
         DeserializeTask task=new DeserializeTask(JsonReader.getInstance(),getActivity().getApplicationContext());
         task.execute("http://smartbus.gmoby.org/web/index.php/api/trips?from_date=2016-01-01&to_date=2016-03-01");
     }
@@ -28,4 +27,9 @@ public class ListViewFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_list_view, container, false);
     }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        listView= (ListView) getView().findViewById(R.id.listView);
+    }
 }
