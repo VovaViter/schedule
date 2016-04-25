@@ -2,6 +2,7 @@ package cn.ua.vova.schedule.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,11 +40,11 @@ public class ListViewFragment extends Fragment implements DataHandlerEvent{
         super.onViewCreated(view, savedInstanceState);
         listView= (ListView) getView().findViewById(R.id.listView);
         if (DataBaseSaveTask.doesDatabaseExist(getContext(), DataBaseHelper.DB_NAME)) {
-            DataBaseLoadTask dataBaseLoadTask=new DataBaseLoadTask(getContext(),this);
+            dataBaseLoadTask=new DataBaseLoadTask(getContext(),this);
             dataBaseLoadTask.execute();
         }else {
-            DeserializeTask task = new DeserializeTask(getContext());
-            task.execute("http://smartbus.gmoby.org/web/index.php/api/trips?from_date=2016-01-01&to_date=2016-03-01");
+            deserializeTask = new DeserializeTask(getContext());
+            deserializeTask.execute("http://smartbus.gmoby.org/web/index.php/api/trips?from_date=2016-01-01&to_date=2016-03-01");
         }
     }
 
@@ -52,5 +53,16 @@ public class ListViewFragment extends Fragment implements DataHandlerEvent{
         ArrayAdapter<ScheduleItem> adapter = new ArrayAdapter<ScheduleItem>(getContext(),
                 android.R.layout.simple_list_item_1, data);
         listView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (deserializeTask!=null && deserializeTask.isCancelled()==false){
+            deserializeTask.cancel(false);
+        }
+        if (dataBaseLoadTask!=null && dataBaseLoadTask.isCancelled()==false){
+            dataBaseLoadTask.cancel(false);
+        }
     }
 }
