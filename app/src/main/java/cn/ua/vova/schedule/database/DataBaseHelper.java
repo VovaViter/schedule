@@ -20,7 +20,7 @@ import cn.ua.vova.schedule.pojo.ScheduleItem;
  */
 public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
 
-    private static final String DB_NAME="Schedule_DB";
+    public static final String DB_NAME="Schedule_DB";
     private static final int VERSION=10;
 
     private CityDAO cityDAO=null;
