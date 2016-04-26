@@ -50,8 +50,7 @@ public class ListViewFragment extends Fragment implements DataHandlerEvent{
 
     @Override
     public void onHandle(List<ScheduleItem> data) {
-        ArrayAdapter<ScheduleItem> adapter = new ArrayAdapter<ScheduleItem>(getContext(),
-                android.R.layout.simple_list_item_1, data);
+        ScheduleItemAdapter adapter = new ScheduleItemAdapter(data,getContext());
         listView.setAdapter(adapter);
     }
 
